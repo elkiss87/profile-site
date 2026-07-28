@@ -1,0 +1,15 @@
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node (필요해지면 사용)
+node_modules/
+dist/
+.env
+.env.local
