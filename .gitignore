@@ -8,6 +8,9 @@ desktop.ini
 .idea/
 *.swp
 
+# Claude Code (로컬 설정)
+.claude/
+
 # Node (필요해지면 사용)
 node_modules/
 dist/
