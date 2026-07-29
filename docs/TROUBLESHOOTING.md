@@ -5,7 +5,8 @@
 `elkiss.me` 를 GitHub Pages에 연결하면서 막혔던 지점들. 원인과 진단 방법을 남긴다.
 나중에 `blog.elkiss.me` 를 붙일 때 같은 데서 또 막히지 않으려고 적는다.
 
-계획 문서는 [PLAN.md](PLAN.md) 에 있다.
+절차는 [DEPLOY.md](DEPLOY.md), 개념은 [DOMAIN.md](DOMAIN.md) 에 있다.
+**여기서 얻은 교훈은 DEPLOY.md 의 순서에 반영해두었다.**
 
 ---
 
@@ -184,14 +185,12 @@ public 저장소에서는 그대로 공개된다. GitHub의 noreply 주소로 �
 
 ---
 
-## 다음에 blog 서브도메인 붙일 때
+## 이 기록에서 나온 결론
 
-서브도메인은 apex 문제가 없어서 훨씬 단순하다.
+**단계마다 확인하고 넘어간다. 안 되면 기다리기 전에 조회부터 한다.**
 
-1. 별도 저장소를 만들고 Pages를 켠다
-2. **먼저 `*.github.io` 주소로 동작을 확인한다** (커스텀 도메인 걸기 전에)
-3. Cloudflare에 CNAME 한 줄: `blog` → `<저장소>.github.io`, **DNS only**
-4. 그다음 Pages에 커스텀 도메인 `blog.elkiss.me` 등록
-5. 조회로 확인 후 Enforce HTTPS
+이 두 줄이 세 번의 삽질에서 나온 전부다. [DEPLOY.md](DEPLOY.md) 의 맨 위에
+원칙으로 적어두었고, 절차의 순서도 그에 맞게 바꿨다.
 
-2번 순서만 지키면 위의 2번 삽질은 안 겪는다.
+blog 서브도메인을 붙일 때는 [DEPLOY.md](DEPLOY.md) 의 순서를 그대로 따르면 된다.
+서브도메인은 apex 문제가 없어서 더 단순하다.
