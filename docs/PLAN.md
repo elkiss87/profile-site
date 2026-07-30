@@ -17,6 +17,7 @@
 | [DOMAIN.md](DOMAIN.md) | 도메인·DNS 개념, apex 문제, 레지스트라 선택 근거 |
 | [STACK.md](STACK.md) | 기술 스택 검토와 결정 근거 |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | 실제로 막혔던 지점과 진단 방법 |
+| [LOG.md](LOG.md) | 작업 일지 — 날짜별로 무엇을 왜 그렇게 정했는지 |
 
 ---
 
@@ -47,7 +48,7 @@
 | DNS | Cloudflare. `@`, `www` 둘 다 CNAME → `elkiss87.github.io`, DNS only |
 | 호스팅 | GitHub Pages (`main` / root) |
 | HTTPS | Let's Encrypt, Enforce HTTPS 적용 |
-| 내용 | `index.html` — Hello World 한 줄. CSS 없음 |
+| 내용 | `index.html` — 카드 리스트 뼈대 완성. 지금은 `Under construction` 표시 |
 
 **결정된 것**
 
@@ -61,11 +62,15 @@
 
 ## 3. 다음 할 일
 
-인프라가 끝났으니 이제 내용이다.
+인프라가 끝났고 뼈대도 섰다. 남은 것은 내용이다.
 
-1. [ ] 페이지에 넣을 내용 정하기 — 표시할 이름, 한 줄 소개, 링크 목록
-2. [ ] 디자인 정하기 — 색, 폰트, 레이아웃 (모바일 우선)
-3. [ ] 페이지 제작
+1. [x] 디자인 정하기 — 카드 리스트 레이아웃, 모바일 우선
+2. [x] 페이지 뼈대 제작 — 자리표시자 상태
+3. [ ] **페이지에 넣을 내용 정하기 — 표시할 이름, 한 줄 소개, 링크 목록**
+4. [ ] 내용을 채우고 `Under construction` 해제
+
+링크 카드는 자리표시자 상태로 화면에 그대로 있다. 내용이 정해지면 카드를 채우고
+`Under construction` 표시만 지우면 된다. 인스타그램 프로필에는 링크를 먼저 걸어두었다.
 
 ---
 

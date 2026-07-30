@@ -17,8 +17,9 @@
 | 1 | `NotServedByPagesError` | DNS 레코드를 아직 안 넣음 | "전파 대기 중인가?" |
 | 2 | `elkiss87.github.io` 도 안 열림 | `CNAME` 파일 때문에 정상 리다이렉트 중 | "Pages가 고장났나?" |
 | 3 | `DNS Check in Progress` 에서 멈춤 | `www` 만 넣고 `@` 를 빠뜨림 | "Cloudflare가 느린가?" |
+| 4 | force push가 `stale info` 로 거부 | `filter-branch --all` 이 원격 추적 참조까지 재작성 | "force push가 막혀 있나?" |
 
-**셋 다 기다려서 해결되는 문제가 아니었다.** 매번 "전파 문제겠지" 하고 기다렸는데
+**1~3은 기다려서 해결되는 문제가 아니었다.** 매번 "전파 문제겠지" 하고 기다렸는데
 실제로는 설정이 빠져 있었다. DNS 문제는 일단 조회부터 해보고 판단해야 한다.
 
 ---
@@ -182,6 +183,134 @@ git pull --rebase origin main
 public 저장소에서는 그대로 공개된다. GitHub의 noreply 주소로 바꾸면 된다.
 
 이 내용은 [CLAUDE.md](../CLAUDE.md) 의 커밋 전 점검 항목에 반영했다.
+실제로 정리한 절차는 아래 4번에 있다.
+
+---
+
+## 4. 커밋 이메일 정리
+
+작성: 2026-07-31
+
+커밋 6개에 개인 이메일이 공개되어 있던 것을 GitHub noreply 주소로 바꾼 기록.
+
+### 웹 화면에서는 안 보인다
+
+GitHub 커밋 페이지에는 아바타와 사용자명만 뜬다. 눈으로 찾으면 없다고 착각한다.
+데이터에는 그대로 있고, 로그인 없이 두 경로로 볼 수 있다.
+
+```bash
+curl -s https://github.com/<user>/<repo>/commit/<sha>.patch | head -2
+curl -s "https://api.github.com/repos/<user>/<repo>/commits?per_page=3" | grep '"email"'
+```
+
+`.patch` 는 사람이 읽는 형식, API는 기계가 읽는 형식이다.
+**실질적인 위험은 API 쪽**이다. 파싱 없이 JSON으로 바로 긁힌다.
+
+### noreply 주소 확인
+
+`https://github.com/settings/emails` 의 *Keep my email addresses private* 설명문 안에 있다.
+별도 항목이 아니라 문장 속에 박혀 있어서 찾기 어렵다. 형식은 이렇다.
+
+```
+<계정번호>+<로그인명>@users.noreply.github.com
+```
+
+계정 번호는 공개 API로도 확인된다.
+
+```bash
+curl -s https://api.github.com/users/<user> | grep '"id"'
+```
+
+**아무 가짜 주소나 쓰면 안 된다.** GitHub이 이 주소를 계정과 연결해서 인식하기 때문에
+noreply를 써야 커밋이 프로필에 잡히고 잔디도 정상으로 심긴다.
+
+### 재발 방지가 먼저다
+
+`Settings → Emails` 에서 **Block command line pushes that expose my email** 을 켠다.
+실제 이메일이 담긴 커밋을 push하면 GitHub이 거부한다. 계정 전체에 걸리므로
+저장소마다 설정할 필요가 없다. 과거를 지우는 것보다 이쪽이 실익이 크다.
+
+저장소별 설정은 이렇게 한다.
+
+```bash
+git config --local user.email "<계정번호>+<로그인명>@users.noreply.github.com"
+```
+
+`--local` 이라 다른 프로젝트는 영향받지 않는다.
+**전역 설정은 그대로이므로 새 public 저장소를 만들 때마다 다시 해야 한다.**
+
+### 아직 push 안 한 커밋
+
+작성자만 바꿔서 다시 만든다.
+
+```bash
+git commit --amend --reset-author --no-edit
+```
+
+### 이미 push한 커밋
+
+히스토리를 재작성한다. 커밋 해시가 전부 바뀌므로 혼자 쓰는 저장소에서만 할 일이다.
+fork나 clone이 있으면 남의 히스토리가 깨진다.
+
+```bash
+FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --env-filter '
+OLD="개인주소@example.com"
+NEW="<계정번호>+<로그인명>@users.noreply.github.com"
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD" ]; then export GIT_AUTHOR_EMAIL="$NEW"; fi
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD" ]; then export GIT_COMMITTER_EMAIL="$NEW"; fi
+' --tag-name-filter cat -- --all
+```
+
+내용이 그대로인지 반드시 확인한다. 아래가 비어 있어야 한다.
+
+```bash
+git diff <재작성_전_HEAD> HEAD
+```
+
+원본은 `refs/original/` 에 남으므로 되돌릴 수 있다.
+
+```bash
+git reset --hard refs/original/refs/heads/main
+```
+
+### 막힌 것 — `--force-with-lease` 가 stale info 로 거부
+
+```
+! [rejected]  main -> main (stale info)
+```
+
+브랜치 보호나 권한 문제로 오해했다. **설정 문제가 아니다.**
+
+원인은 위 `filter-branch` 의 `-- --all` 이다. `--all` 이 원격 추적 참조
+(`refs/remotes/origin/main`) 까지 재작성해서, 로컬이 아는 원격 상태와 실제 원격이 어긋났다.
+
+`--force-with-lease` 는 "내가 아는 원격 상태와 실제가 같을 때만 덮어쓴다"는 뜻이다.
+둘이 다르니 **안전장치가 의도대로 멈춘 것**이다.
+
+진단은 둘을 나란히 비교하면 된다.
+
+```bash
+git rev-parse --short origin/main              # 로컬이 아는 원격
+git ls-remote origin refs/heads/main | cut -c1-7   # 진짜 원격
+```
+
+해결은 원격 상태를 다시 받아오는 것이다.
+
+```bash
+git fetch origin
+git push --force-with-lease
+```
+
+> `--all` 대신 `-- --branches` 를 쓰면 원격 추적 참조를 건드리지 않아 이 문제가 안 생긴다.
+
+### 남는 것
+
+force push 후에도 **옛 커밋 객체는 GitHub 서버에 한동안 남는다.** 브랜치에서는 사라지지만
+예전 SHA를 정확히 아는 사람은 URL로 직접 열 수 있다. 완전히 지우려면 GitHub Support에
+참조되지 않는 객체 정리를 요청해야 한다.
+
+크롤러 관점에서는 목록과 API에서 사라지므로 사실상 무력화된다.
+개인 사이트 수준에서는 여기까지가 적정선이다.
 
 ---
 
