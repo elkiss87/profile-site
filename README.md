@@ -10,13 +10,15 @@
 ## 상태
 
 인프라는 끝났고 페이지 내용을 채우는 중입니다.
-지금은 `Under construction` 표시만 나옵니다.
+지금은 인스타그램 링크 하나만 올라가 있습니다.
 
 - [x] GitHub Pages 배포
 - [x] 커스텀 도메인 연결 (`elkiss.me`, HTTPS)
 - [x] 페이지 뼈대 제작 (모바일 우선)
-- [ ] 내용 정하기 (이름, 소개, 링크 목록)
-- [ ] 내용 채우고 공개
+- [x] 인스타그램 링크 연결
+- [ ] 나머지 링크 추가 (블로그 등)
+- [ ] 소개 문구 정하기
+- [ ] 3D 오브젝트 적용 ([RESEARCH.md](docs/RESEARCH.md))
 
 ## 구조
 
@@ -40,6 +42,7 @@ docs/         기획과 기록
 | [DEPLOY.md](docs/DEPLOY.md) | 배포 절차 |
 | [DOMAIN.md](docs/DOMAIN.md) | 도메인·DNS 개념 |
 | [STACK.md](docs/STACK.md) | 기술 스택 결정 근거 |
+| [RESEARCH.md](docs/RESEARCH.md) | UI 자료 조사와 채택 여부 |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | 막혔던 지점과 진단 방법 |
 | [LOG.md](docs/LOG.md) | 작업 일지 |
 
