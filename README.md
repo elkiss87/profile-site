@@ -9,15 +9,14 @@
 
 ## 상태
 
-인프라는 끝났고 페이지 내용을 채우는 중입니다.
-지금은 인스타그램 링크 하나만 올라가 있습니다.
+인프라와 1차 내용이 끝났습니다. 자리표시자는 남아 있지 않습니다.
 
 - [x] GitHub Pages 배포
 - [x] 커스텀 도메인 연결 (`elkiss.me`, HTTPS)
 - [x] 페이지 뼈대 제작 (모바일 우선)
-- [x] 인스타그램 링크 연결
-- [ ] 나머지 링크 추가 (블로그 등)
-- [ ] 소개 문구 정하기
+- [x] 프로필 내용 (역할, 현재 상태, 이력)
+- [x] 링크 연결 (Instagram, GitHub)
+- [ ] 블로그 개설 후 링크 추가 (`blog.elkiss.me`)
 - [ ] 3D 오브젝트 적용 ([RESEARCH.md](docs/RESEARCH.md))
 
 ## 구조
@@ -38,7 +37,7 @@ docs/         기획과 기록
 
 | 문서 | 내용 |
 |---|---|
-| [PLAN.md](docs/PLAN.md) | 기획과 진행 상황 |
+| [PLAN.md](docs/PLAN.md) | 기획, 진행 상황, 페이지 규칙 |
 | [DEPLOY.md](docs/DEPLOY.md) | 배포 절차 |
 | [DOMAIN.md](docs/DOMAIN.md) | 도메인·DNS 개념 |
 | [STACK.md](docs/STACK.md) | 기술 스택 결정 근거 |
