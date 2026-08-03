@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>elkiss</title>
-  <meta name="description" content="elkiss 링크 모음">
+  <meta name="description" content="게임 서버 엔지니어 elkiss의 프로필과 링크">
   <style>
     :root {
       --bg: #faf9f7;
@@ -44,11 +44,52 @@
       object-fit: cover;
     }
 
+    /* 워드마크. 대문자는 크기·굵기·자간과 함께 가야 한다.
+       자간을 준 가운데 정렬은 text-indent 로 보정한다는 이야기가 있는데,
+       측정해보니 마지막 글자 뒤 자간이 이미 처리되어 좌우가 맞는다.
+       보정을 넣으면 오히려 오른쪽으로 밀린다 */
     .name {
-      margin: 0 0 32px;
-      font-size: 20px;
+      margin: 0 0 10px;
+      font-size: 30px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: .16em;
+    }
+
+    .role {
+      margin: 0 0 18px;
+      font-size: 11px;
       font-weight: 600;
       text-align: center;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--text-sub);
+    }
+
+    /* 이력 — 링크가 아니라 읽는 목록이다. 최신이 위 */
+    .works {
+      margin: 0 0 32px;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    .works li {
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    /* 현재 소속과 이전 소속 사이. 회사명을 줄마다 붙이는 대신
+       여백으로만 시대를 가른다 */
+    .works li:first-child {
+      margin-bottom: 20px;
+    }
+
+    .works__title {
+      display: block;
+      font-weight: 600;
+      color: var(--text);
     }
 
     /* 링크 카드 */
@@ -109,6 +150,12 @@
       text-align: center;
     }
 
+    footer a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+
     /* 마우스가 있는 기기에서만 hover */
     @media (hover: hover) {
       .card:hover { border-color: #c9c6bf; }
@@ -120,7 +167,22 @@
 
     <img class="avatar" src="https://github.com/elkiss87.png?size=200"
          width="88" height="88" alt="" loading="eager">
-    <h1 class="name">elkiss</h1>
+    <h1 class="name">ELKISS</h1>
+    <p class="role">Server Engineer &middot; C++</p>
+    <ul class="works">
+      <li>
+        <span class="works__title">NC 신작 개발 중</span>
+        2025&ndash; &middot; Server Programmer
+      </li>
+      <li>
+        <span class="works__title">달빛조각사</span>
+        2024&ndash;2025 &middot; Server Programmer
+      </li>
+      <li>
+        <span class="works__title">ArcheAge</span>
+        2015&ndash;2024 &middot; Content Programmer
+      </li>
+    </ul>
 
     <nav class="links">
 
@@ -133,7 +195,22 @@
         </svg>
         <span>
           <span class="card__title">Instagram</span>
-          <span class="card__desc">@elkiss87</span>
+          <span class="card__desc">러닝 &times; 나스닥 100배까지</span>
+        </span>
+        <svg class="card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8"/>
+        </svg>
+      </a>
+
+      <a class="card" href="https://github.com/elkiss87">
+        <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" aria-hidden="true">
+          <path d="m9 18-6-6 6-6M15 6l6 6-6 6"/>
+        </svg>
+        <span>
+          <span class="card__title">GitHub</span>
+          <span class="card__desc">쉬었음 개발자 feat. Claude</span>
         </span>
         <svg class="card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" aria-hidden="true">
@@ -143,7 +220,10 @@
 
     </nav>
 
-    <footer>&copy; 2026</footer>
+    <footer>
+      &copy; elkiss &middot;
+      <a href="https://github.com/elkiss87/profile-site">Source</a>
+    </footer>
 
   </main>
 </body>
