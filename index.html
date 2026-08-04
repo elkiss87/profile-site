@@ -149,6 +149,32 @@
     @media (hover: hover) {
       .card:hover { border-color: #c9c6bf; }
     }
+
+    /* 큰 화면. 모바일 치수 그대로 두면 내용이 화면의 20%밖에 안 차서
+       여백이 넓은 게 아니라 글자가 작아서 휑해 보인다.
+       레이아웃은 그대로 두고 글자 크기와 세로 위치만 바꾼다 */
+    @media (min-width: 700px) {
+      body {
+        display: flex;
+        min-height: 100vh;
+        min-height: 100dvh;
+        /* 아래를 넓혀 광학 중심으로 올린다. 카드가 면으로 차 있어
+           무게가 아래로 쏠리기 때문 */
+        padding-bottom: 96px;
+      }
+
+      /* align-items 대신 margin:auto — 내용이 화면보다 길어져도 위가 안 잘린다 */
+      .wrap {
+        width: 100%;
+        margin: auto;
+      }
+
+      .name { font-size: 40px; }
+      .role { font-size: 12px; }
+      .works li { font-size: 14px; }
+      .card__title { font-size: 16px; }
+      .card__desc { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
