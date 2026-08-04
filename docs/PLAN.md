@@ -49,7 +49,7 @@
 | DNS | Cloudflare. `@`, `www` 둘 다 CNAME → `elkiss87.github.io`, DNS only |
 | 호스팅 | GitHub Pages (`main` / root) |
 | HTTPS | Let's Encrypt, Enforce HTTPS 적용 |
-| 내용 | `index.html` — 프로필(역할·이력)과 링크 2개(Instagram, GitHub) |
+| 내용 | `index.html` — 프로필(역할·이력)과 링크 3개(Instagram, GitHub, Blog) |
 
 **결정된 것**
 
@@ -69,7 +69,7 @@
 2. [x] 페이지 뼈대 제작 — 자리표시자 상태
 3. [x] 페이지에 넣을 내용 정하기 — 역할, 이력, 링크 목록
 4. [x] 내용을 채우고 `Under construction` 해제
-5. [ ] **블로그 개설 후 링크 카드 추가**
+5. [x] 블로그 개설 후 링크 카드 추가 (`blog.elkiss.me`, 2026-08-04)
 6. [ ] 3D 오브젝트 적용 → [RESEARCH.md](RESEARCH.md)
 
 ---
@@ -125,8 +125,8 @@
 
 ### 없는 곳을 가리키는 카드는 만들지 않는다
 
-블로그 카드는 `blog.elkiss.me` 가 실제로 뜬 다음에 추가한다.
-절차는 [DEPLOY.md](DEPLOY.md) 참고.
+블로그 카드는 `blog.elkiss.me` 가 실제로 뜬 것을 확인하고 추가했다 (2026-08-04).
+앞으로 링크를 늘릴 때도 같다 — 주소가 200 으로 응답하는 것을 보고 나서 카드를 만든다.
 
 ---
 

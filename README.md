@@ -15,8 +15,7 @@
 - [x] 커스텀 도메인 연결 (`elkiss.me`, HTTPS)
 - [x] 페이지 뼈대 제작 (모바일 우선)
 - [x] 프로필 내용 (역할, 현재 상태, 이력)
-- [x] 링크 연결 (Instagram, GitHub)
-- [ ] 블로그 개설 후 링크 추가 (`blog.elkiss.me`)
+- [x] 링크 연결 (Instagram, GitHub, Blog)
 - [ ] 3D 오브젝트 적용 ([RESEARCH.md](docs/RESEARCH.md))
 
 ## 구조
