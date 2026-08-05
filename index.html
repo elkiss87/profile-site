@@ -17,10 +17,65 @@
 
     * { box-sizing: border-box; }
 
+    /* 필름 그레인. SVG 노이즈를 data URI 로 깔아 종이 같은 질감을 준다.
+       화면에 고정해 스크롤해도 따라다니지 않게 한다 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .wrap { position: relative; z-index: 1; }
+
+    /* 진입 애니메이션. 요소가 순서대로 떠오르며 나타난다.
+       backwards 로 시작 전 상태를 미리 적용해 깜빡임을 막는다 */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* 지속시간이 간격보다 길면 앞 요소가 아직 움직이는 중에 다음이 출발해
+       순차가 아니라 뭉쳐 보인다. 간격을 지속시간의 1/7 쯤으로 잡아 하나씩 자리잡게 한다 */
+    .name span, .role, .works li, .card, footer {
+      animation: rise .85s cubic-bezier(.16, 1, .3, 1) backwards;
+    }
+
+    /* 워드마크는 글자 단위로 들어온다. 페이지의 중심이라 여기에 가장 공을 들인다 */
+    .name span:nth-child(1) { animation-delay: 0s;   }
+    .name span:nth-child(2) { animation-delay: .12s; }
+    .name span:nth-child(3) { animation-delay: .24s; }
+    .name span:nth-child(4) { animation-delay: .36s; }
+    .name span:nth-child(5) { animation-delay: .48s; }
+    .name span:nth-child(6) { animation-delay: .60s; }
+
+    .role          { animation-delay: .72s; }
+    .works li:nth-child(1) { animation-delay: .84s; }
+    .works li:nth-child(2) { animation-delay: .96s; }
+    .works li:nth-child(3) { animation-delay: 1.08s; }
+    .card:nth-child(1)     { animation-delay: 1.20s; }
+    .card:nth-child(2)     { animation-delay: 1.32s; }
+    .card:nth-child(3)     { animation-delay: 1.44s; }
+    footer         { animation-delay: 1.56s; }
+
+    /* 움직임을 줄이도록 설정한 사용자에게는 애니메이션을 걷어낸다 */
+    @media (prefers-reduced-motion: reduce) {
+      .name span, .role, .works li, .card, footer { animation: none; }
+      .card, .card__icon, .card__arrow, footer a::after { transition: none; }
+    }
+
     body {
       margin: 0;
       padding: 48px 20px 40px;
+      /* 단색 대신 아주 옅은 그라데이션. 위가 밝고 아래로 갈수록 조금 어두워져
+         평평하던 화면에 깊이가 생긴다. 색은 기존 팔레트 안에서만 움직인다 */
       background: var(--bg);
+      background-image:
+        radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--bg) 42%, #f1efea 100%);
+      background-attachment: fixed;
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -44,6 +99,10 @@
       text-align: center;
       letter-spacing: .16em;
     }
+
+    /* 글자마다 따로 움직이려면 inline-block 이어야 한다.
+       자간과 가운데 정렬은 쪼개도 그대로 유지된다 */
+    .name span { display: inline-block; }
 
     .role {
       margin: 0 0 18px;
@@ -98,7 +157,7 @@
       border-radius: var(--radius);
       text-decoration: none;
       color: inherit;
-      transition: transform .12s ease, border-color .12s ease;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
     .card:active {
@@ -110,6 +169,7 @@
       width: 24px;
       height: 24px;
       color: var(--text-sub);
+      transition: transform .18s ease;
     }
 
     .card__title {
@@ -130,6 +190,7 @@
       width: 16px;
       height: 16px;
       color: var(--text-sub);
+      transition: transform .18s ease;
     }
 
     footer {
@@ -139,15 +200,41 @@
       text-align: center;
     }
 
+    /* 밑줄을 늘 켜두는 대신 hover 때 왼쪽에서 자라나게 한다.
+       평소에는 깔끔하고, 반응할 때만 드러난다 */
     footer a {
+      position: relative;
       color: inherit;
       text-decoration: none;
-      border-bottom: 1px solid var(--line);
+    }
+
+    footer a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    /* 마우스가 없는 기기에서는 밑줄이 나타날 계기가 없으므로 항상 보이게 둔다 */
+    @media (hover: none) {
+      footer a::after { transform: scaleX(1); background: var(--line); }
     }
 
     /* 마우스가 있는 기기에서만 hover */
     @media (hover: hover) {
-      .card:hover { border-color: #c9c6bf; }
+      .card:hover {
+        border-color: #c9c6bf;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(28, 28, 26, .06);
+      }
+      .card:hover .card__arrow { transform: translate(2px, -2px); }
+      .card:hover .card__icon  { transform: scale(1.08); }
     }
 
     /* 큰 화면. 모바일 치수 그대로 두면 내용이 화면의 20%밖에 안 차서
@@ -180,7 +267,12 @@
 <body>
   <main class="wrap">
 
-    <h1 class="name">ELKISS</h1>
+    <!-- 글자마다 따로 등장시키려고 쪼갰다. aria-label 이 없으면
+         스크린리더가 낱글자로 읽는다 -->
+    <h1 class="name" aria-label="ELKISS"><span aria-hidden="true">E</span><span
+      aria-hidden="true">L</span><span aria-hidden="true">K</span><span
+      aria-hidden="true">I</span><span aria-hidden="true">S</span><span
+      aria-hidden="true">S</span></h1>
     <p class="role">Server Engineer &middot; C++</p>
     <ul class="works">
       <li>
