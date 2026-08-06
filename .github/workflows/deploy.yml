@@ -1,0 +1,43 @@
+name: Custom Deploy to GitHub Pages
+
+on:
+  # main 브랜치에 푸시될 때마다 실행
+  push:
+    branches: ["main"]
+  # Actions 탭에서 수동으로 버튼을 눌러 실행할 수 있게 허용
+  workflow_dispatch:
+
+# GITHUB_TOKEN의 권한 설정
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시성(Concurrency) 설정: 아까 같은 무한 대기열 꼬임을 방지하는 핵심!
+# 진행 중인 배포가 있으면 강제로 취소하고 최신 커밋으로만 덮어씌웁니다.
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 빌드할 파일이 있는 경로 (현재는 루트 디렉토리)
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
