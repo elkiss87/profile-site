@@ -32,11 +32,22 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # 사이트에 필요한 파일만 골라 담는다.
+      # 저장소 루트를 통째로 올리면 README.md, CLAUDE.md, docs/ 까지
+      # elkiss.me 에서 그대로 열린다. public 저장소라 유출은 아니지만,
+      # 개인 도메인에서 작업 문서 원본이 서비스될 이유는 없다.
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp CNAME _site/
+          echo "--- 배포될 파일 ---"
+          find _site -type f | sort
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 빌드할 파일이 있는 경로 (현재는 루트 디렉토리)
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
