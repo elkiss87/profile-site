@@ -209,7 +209,7 @@ curl -s "https://api.github.com/repos/<user>/<repo>/commits?per_page=3" | grep '
 ### noreply 주소 확인
 
 `https://github.com/settings/emails` 의 *Keep my email addresses private* 설명문 안에 있다.
-별도 항목이 아니라 문장 속에 박혀 있어서 찾기 어렵다. 형식은 이렇다.
+별도 항목이 아니라 문장 속에 섞여 있어서 찾기 어렵다. 형식은 이렇다.
 
 ```
 <계정번호>+<로그인명>@users.noreply.github.com
