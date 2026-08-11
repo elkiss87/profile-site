@@ -6,6 +6,10 @@
   <title>ELKISS &mdash; Profile</title>
   <meta name="description" content="게임 서버 엔지니어 elkiss의 프로필과 링크">
 
+  <!-- 모바일 브라우저 주소창 색. 페이지 배경과 맞춰야 경계선이 안 생긴다 -->
+  <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141412" media="(prefers-color-scheme: dark)">
+
   <!-- 링크를 공유했을 때 뜨는 미리보기.
        og:image 는 아직 없다. 넣으면 카드가 썸네일 형태로 커지고,
        그때 twitter:card 도 summary_large_image 로 바꾼다 -->
@@ -21,13 +25,41 @@
        획을 더 굵게 하면 16px 에서 획 사이 틈이 메워져 덩어리로 보인다 -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1c1a'/%3E%3Cg fill='%23faf9f7'%3E%3Crect x='6' y='5' width='5.5' height='22'/%3E%3Crect x='6' y='5' width='20' height='5.5'/%3E%3Crect x='6' y='13.25' width='16' height='5.5'/%3E%3Crect x='6' y='21.5' width='20' height='5.5'/%3E%3C/g%3E%3C/svg%3E">
   <style>
+    /* 색은 전부 여기 모아둔다. 다크모드는 이 값들만 갈아끼우면 되도록,
+       아래 규칙에는 색 리터럴을 남기지 않는다 */
     :root {
       --bg: #faf9f7;
+      --bg-top: #ffffff;
+      --bg-bottom: #f1efea;
       --card: #ffffff;
       --text: #1c1c1a;
       --text-sub: #6b6a66;
       --line: #e5e3de;
+      --line-hover: #c9c6bf;
+      --shadow: rgba(28, 28, 26, .06);
+      --grain: .04;
       --radius: 14px;
+
+      /* 스크롤바나 기본 폼 요소도 같이 따라오게 한다 */
+      color-scheme: light dark;
+    }
+
+    /* 다크모드. 검정이 아니라 따뜻한 쪽으로 내린다 —
+       라이트가 순백이 아닌 미색이라 여기서 중성 회색으로 가면 짝이 안 맞는다.
+       그레인은 밝은 노이즈라 어두운 바닥에서 더 도드라진다. 조금 낮춘다 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141412;
+        --bg-top: #201f1c;
+        --bg-bottom: #0d0d0b;
+        --card: #1c1b19;
+        --text: #f2f0eb;
+        --text-sub: #97948d;
+        --line: #302f2b;
+        --line-hover: #46443e;
+        --shadow: rgba(0, 0, 0, .4);
+        --grain: .03;
+      }
     }
 
     * { box-sizing: border-box; }
@@ -40,7 +72,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      opacity: .04;
+      opacity: var(--grain);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
@@ -89,7 +121,7 @@
          평평하던 화면에 깊이가 생긴다. 색은 기존 팔레트 안에서만 움직인다 */
       background: var(--bg);
       background-image:
-        radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--bg) 42%, #f1efea 100%);
+        radial-gradient(120% 90% at 50% 0%, var(--bg-top) 0%, var(--bg) 42%, var(--bg-bottom) 100%);
       background-attachment: fixed;
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -244,9 +276,9 @@
     /* 마우스가 있는 기기에서만 hover */
     @media (hover: hover) {
       .card:hover {
-        border-color: #c9c6bf;
+        border-color: var(--line-hover);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(28, 28, 26, .06);
+        box-shadow: 0 6px 16px var(--shadow);
       }
       .card:hover .card__arrow { transform: translate(2px, -2px); }
       .card:hover .card__icon  { transform: scale(1.08); }
